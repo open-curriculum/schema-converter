@@ -15,6 +15,7 @@ var server = http.createServer(function(req, res) {
             res.end(JSON.stringify({success: false, error: 'URL to parse no provided.'}));
         }
         else {
+            console.log('Getting Schema for '.parseUrl);
             try {
                 jsonld_request(parseUrl, function (err, r, data) {
                     if (err) {
@@ -28,6 +29,7 @@ var server = http.createServer(function(req, res) {
                     }
                 });
             } catch (e) {
+                console.error(e.stack);
                 res.statusCode = 500;
                 res.end(JSON.stringify({
                     message: "Failed to parse resource at " + parseUrl
@@ -35,6 +37,7 @@ var server = http.createServer(function(req, res) {
             }
         }
     } else {
+        console.log('No url provided.')
         res.statusCode = 500;
         res.end();
     }
