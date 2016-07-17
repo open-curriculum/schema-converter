@@ -1,0 +1,15 @@
+{
+  "name": "schema-converter",
+  "version": "1.0.0",
+  "description": "A web service to convert RDFa to JSON-LD",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alex Boyce <curiosity26@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "jsonld": "*",
+    "jsonld-request": "*"
+  }
+}
