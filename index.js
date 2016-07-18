@@ -6,6 +6,8 @@ var port = process.argv[2] || 80;
 var server = http.createServer(function(req, res) {
 
     res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
 
     if (req.method == 'GET') {
         var parseUrl = require('querystring').parse(url.parse(req.url).query).q;
@@ -13,14 +15,12 @@ var server = http.createServer(function(req, res) {
         if (!parseUrl) {
             res.statusCode = 500;
             res.end(JSON.stringify({success: false, error: 'URL to parse no provided.'}));
-        }
-        else {
-            console.log('Getting Schema for '.parseUrl);
+        }  else {
             try {
                 jsonld_request(parseUrl, function (err, r, data) {
                     if (err) {
                         res.statusCode = 500;
-                        res.end(JSON.stringify(data));
+                        res.end(JSON.stringify(err));
                     } else if (r.statusCode < 200 || r.statusCode > 300) {
                         res.statusCode = r.statusCode;
                         res.end(JSON.stringify(data));
@@ -29,7 +29,6 @@ var server = http.createServer(function(req, res) {
                     }
                 });
             } catch (e) {
-                console.error(e.stack);
                 res.statusCode = 500;
                 res.end(JSON.stringify({
                     message: "Failed to parse resource at " + parseUrl
@@ -37,7 +36,6 @@ var server = http.createServer(function(req, res) {
             }
         }
     } else {
-        console.log('No url provided.')
         res.statusCode = 500;
         res.end();
     }
