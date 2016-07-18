@@ -14,8 +14,8 @@ var server = http.createServer(function(req, res) {
 
         if (!parseUrl) {
             res.statusCode = 500;
-            res.end(JSON.stringify({success: false, error: 'URL to parse no provided.'}));
-        }  else {
+            res.end(JSON.stringify({message: 'URL to parse no provided.'}));
+        } else {
             try {
                 jsonld_request(parseUrl, function (err, r, data) {
                     if (err) {
